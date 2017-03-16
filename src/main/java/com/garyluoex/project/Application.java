@@ -1,10 +1,10 @@
 package com.garyluoex.project;
 
-import com.garyluoex.project.data.DataResult;
-import com.garyluoex.project.data.DataThread;
+import com.garyluoex.project.data.ResultData;
+import com.garyluoex.project.processor.DataProcessingThread;
 import com.garyluoex.project.gui.*;
-import com.garyluoex.project.processor.TestDataProcessor;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -19,13 +19,10 @@ public class Application {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         // Start collecting sensor data from arduino usb connection
-        DataResult dataResult = new DataResult();
-        TestDataProcessor testDataProcessor = new TestDataProcessor(dataResult);
-        DataThread dataThread = new DataThread(testDataProcessor);
-        dataThread.start();
+        DataProcessingThread dataProcessingThread = new DataProcessingThread();
+        dataProcessingThread.start();
 
         // Initialize GUI to show
-        System.out.println("Entering GUI section");
         MainFrame myGUI = new MainFrame();
         myGUI.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
@@ -39,10 +36,10 @@ public class Application {
         LeafPanel leafPanel = new LeafPanel(compositeLeafBufferedImage);
 
         ClickUpdateOpacityListener clickUpdateOpacityListener = new ClickUpdateOpacityListener(compositeLeafBufferedImage, leafPanel);
+        CalibrationListener calibrationListener = new CalibrationListener();
 
         leafPanel.getLabel().addMouseListener(clickUpdateOpacityListener);
-
-        ControlPanel controlPanel = new ControlPanel(clickUpdateOpacityListener);
+        ControlPanel controlPanel = new ControlPanel(calibrationListener);
 
         myGUI.add(leafPanel, BorderLayout.WEST);
         myGUI.add(controlPanel, BorderLayout.EAST);
@@ -51,6 +48,7 @@ public class Application {
 
         // Loop to update GUI given the current state of data and result
         while (true) {
+            leafPanel.getLabel().setIcon(new ImageIcon(compositeLeafBufferedImage.getNewOpacityImage((float) ResultData.getResult())));
         }
     }
 }

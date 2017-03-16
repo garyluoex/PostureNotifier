@@ -19,4 +19,8 @@ public interface Configuration {
 
     public static final int BUTTON_HEIGHT = 200;
     public static final int BUTTON_WIDTH = 200;
+
+    public static final int SENSOR_COUNT = 12;
+
+    public static final double NORMALIZATION_FACTOR = 10;
 }
