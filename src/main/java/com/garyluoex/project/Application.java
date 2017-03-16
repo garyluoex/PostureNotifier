@@ -46,6 +46,8 @@ public class Application {
 
         myGUI.setVisible(true);
 
+        System.out.println("Entering main thread loop");
+
         // Loop to update GUI given the current state of data and result
         while (true) {
             leafPanel.getLabel().setIcon(new ImageIcon(compositeLeafBufferedImage.getNewOpacityImage((float) ResultData.getResult())));

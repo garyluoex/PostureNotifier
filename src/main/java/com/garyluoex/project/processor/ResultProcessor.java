@@ -17,6 +17,7 @@ public class ResultProcessor {
         }
 
         ResultData.setResult(normalizeDistance(findDistance(centroidData)));
+        System.out.println("Normalized Distance: " + ResultData.getResult());
     }
 
     private static double findDistance(CentroidData dataCenter) {
@@ -29,6 +30,7 @@ public class ResultProcessor {
     private static double normalizeDistance(double distance) {
         double normalizedDistance = distance/NORMALIZATION_FACTOR;
 
+        System.out.println("Distance: " + distance);
         if (normalizedDistance > 1.0) {
             return 1.0;
         }

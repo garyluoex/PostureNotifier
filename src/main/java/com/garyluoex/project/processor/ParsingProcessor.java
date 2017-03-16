@@ -1,5 +1,6 @@
 package com.garyluoex.project.processor;
 
+import static com.garyluoex.project.config.Configuration.*;
 import com.garyluoex.project.data.SensorData;
 
 import java.util.Arrays;
@@ -13,7 +14,12 @@ public class ParsingProcessor {
     public static SensorData processData(String data) {
         System.out.println(data);
         String[] dataArray = data.split(",");
-        return new SensorData(Arrays.stream(dataArray)
-                .mapToDouble(Double::parseDouble).toArray());
+        try {
+            return new SensorData(Arrays.stream(dataArray)
+                    .mapToDouble(Double::parseDouble).toArray());
+        } catch (Exception e) {
+            return new SensorData(new double[SENSOR_COUNT]);
+        }
+
     }
 }

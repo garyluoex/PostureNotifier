@@ -15,13 +15,11 @@ public class CentroidProcessor {
     public static CentroidData processData(SensorData sensorData) {
         double xTotal = 0;
         double yTotal = 0;
-
         for (int i = 0; i < SENSOR_COUNT; i++) {
             xTotal += sensorData.getForceData(i)*xPosition[i];
             yTotal += sensorData.getForceData(i)*yPosition[i];
         }
         return new CentroidData(xTotal/SENSOR_COUNT, yTotal/SENSOR_COUNT);
-
     }
 
 }
