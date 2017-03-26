@@ -19,20 +19,20 @@ public class CompositeLeafBufferedImage extends BufferedImage {
     private int imageHeight;
 
     public CompositeLeafBufferedImage(String greenLeaf, String redLeaf) throws IOException {
-        super(LEAF_WIDTH, LEAF_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        super(DOT_WIDTH, DOT_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
-        this.imageWidth = LEAF_WIDTH;
-        this.imageHeight = LEAF_HEIGHT;
+        this.imageWidth = DOT_WIDTH;
+        this.imageHeight = DOT_HEIGHT;
         this.greenLeafImage = loadImage(greenLeaf);
         this.redLeafImage = loadImage(redLeaf);
         this.getGraphics().drawImage(greenLeafImage, 0, 0, null);
     }
 
     public CompositeLeafBufferedImage(BufferedImage greenLeaf, BufferedImage redLeaf) throws IOException {
-        super(LEAF_WIDTH, LEAF_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        super(DOT_WIDTH, DOT_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
-        this.imageWidth = LEAF_WIDTH;
-        this.imageHeight = LEAF_HEIGHT;
+        this.imageWidth = DOT_WIDTH;
+        this.imageHeight = DOT_HEIGHT;
 
         this.greenLeafImage = greenLeaf;
         this.redLeafImage = redLeaf;

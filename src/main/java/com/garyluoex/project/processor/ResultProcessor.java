@@ -17,6 +17,13 @@ public class ResultProcessor {
         }
 
         ResultData.setResult(normalizeDistance(findDistance(centroidData)));
+
+        double xDiff = centroidData.getX() - ResultProcessor.calibrationCentroid.getX();
+        double yDiff = centroidData.getY() - ResultProcessor.calibrationCentroid.getY();
+
+        ResultData.setResult_x(xDiff);
+        ResultData.setResult_y(yDiff);
+
         System.out.println("Normalized Distance: " + ResultData.getResult());
     }
 

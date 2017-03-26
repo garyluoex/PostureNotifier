@@ -8,8 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-import static com.garyluoex.project.config.Configuration.FRAME_HEIGHT;
-import static com.garyluoex.project.config.Configuration.FRAME_WIDTH;
+import static com.garyluoex.project.config.Configuration.*;
 
 /**
  * Created by kaluo on 3/12/17.
@@ -28,10 +27,9 @@ public class Application {
 
         CompositeLeafBufferedImage compositeLeafBufferedImage =
                 new CompositeLeafBufferedImage(
-                        "src/main/resources/greenleaf.png",
-                        "src/main/resources/redleaf.png"
+                        "src/main/resources/Greendot.png",
+                        "src/main/resources/Reddot.png"
                 );
-
 
         LeafPanel leafPanel = new LeafPanel(compositeLeafBufferedImage);
 
@@ -41,16 +39,24 @@ public class Application {
         leafPanel.getLabel().addMouseListener(clickUpdateOpacityListener);
         ControlPanel controlPanel = new ControlPanel(calibrationListener);
 
-        myGUI.add(leafPanel, BorderLayout.WEST);
+        myGUI.add(leafPanel, BorderLayout.CENTER);
         myGUI.add(controlPanel, BorderLayout.EAST);
 
         myGUI.setVisible(true);
+
+        leafPanel.getLabel().setLocation(-8, 1);
 
         System.out.println("Entering main thread loop");
 
         // Loop to update GUI given the current state of data and result
         while (true) {
-            leafPanel.getLabel().setIcon(new ImageIcon(compositeLeafBufferedImage.getNewOpacityImage((float) ResultData.getResult())));
+            double normalizedDistance = ResultData.getResult();
+            int x_diff = (int) (CIRCLE_CENTER_X + ResultData.getResult_x()*10);
+            int y_diff = (int) (CIRCLE_CENTER_Y + ResultData.getResult_y()*10);
+
+            leafPanel.getLabel().setLocation(x_diff, y_diff);
+
+            leafPanel.getLabel().setIcon(new ImageIcon(compositeLeafBufferedImage.getNewOpacityImage((float) normalizedDistance)));
         }
     }
 }
