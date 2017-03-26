@@ -25,6 +25,9 @@ public class ResultProcessor {
         ResultData.setResult_y(yDiff);
 
         System.out.println("Normalized Distance: " + ResultData.getResult());
+        System.out.println("X Distance: " + ResultData.getResult_x());
+        System.out.println("Y Distance: " + ResultData.getResult_y());
+
     }
 
     private static double findDistance(CentroidData dataCenter) {

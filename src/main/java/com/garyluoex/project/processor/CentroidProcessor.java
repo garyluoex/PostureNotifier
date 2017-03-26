@@ -9,17 +9,19 @@ import com.garyluoex.project.data.SensorData;
  */
 public class CentroidProcessor {
 
-    public static double[] xPosition = new double[] {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1};
-    public static double[] yPosition = new double[] {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1};
+    public static double[] xPosition = new double[] {20, 130, 20, 20, 130, 75, 170, 225, 280, 280, 170, 280};
+    public static double[] yPosition = new double[] {280, 250, 190, 110, 150, 25, 150, 25, 110, 190, 250, 280};
 
     public static CentroidData processData(SensorData sensorData) {
         double xTotal = 0;
+        double rawForce = 1;
         double yTotal = 0;
         for (int i = 0; i < SENSOR_COUNT; i++) {
             xTotal += sensorData.getForceData(i)*xPosition[i];
+            rawForce += sensorData.getForceData(i);
             yTotal += sensorData.getForceData(i)*yPosition[i];
         }
-        return new CentroidData(xTotal/SENSOR_COUNT, yTotal/SENSOR_COUNT);
+        return new CentroidData(xTotal/rawForce, yTotal/rawForce);
     }
 
 }

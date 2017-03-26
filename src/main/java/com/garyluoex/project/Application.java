@@ -25,11 +25,7 @@ public class Application {
         MainFrame myGUI = new MainFrame();
         myGUI.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
-        CompositeLeafBufferedImage compositeLeafBufferedImage =
-                new CompositeLeafBufferedImage(
-                        "src/main/resources/Greendot.png",
-                        "src/main/resources/Reddot.png"
-                );
+        CompositeLeafBufferedImage compositeLeafBufferedImage = new CompositeLeafBufferedImage(DOT_GREEN_URL, DOT_RED_URL);
 
         LeafPanel leafPanel = new LeafPanel(compositeLeafBufferedImage);
 
@@ -40,7 +36,7 @@ public class Application {
         ControlPanel controlPanel = new ControlPanel(calibrationListener);
 
         myGUI.add(leafPanel, BorderLayout.CENTER);
-        myGUI.add(controlPanel, BorderLayout.EAST);
+        myGUI.add(controlPanel, BorderLayout.WEST);
 
         myGUI.setVisible(true);
 
@@ -51,8 +47,8 @@ public class Application {
         // Loop to update GUI given the current state of data and result
         while (true) {
             double normalizedDistance = ResultData.getResult();
-            int x_diff = (int) (CIRCLE_CENTER_X + ResultData.getResult_x()*10);
-            int y_diff = (int) (CIRCLE_CENTER_Y + ResultData.getResult_y()*10);
+            int x_diff = (int) (CIRCLE_CENTER_X + ResultData.getResult_x() * POSITION_FACTOR);
+            int y_diff = (int) (CIRCLE_CENTER_Y - ResultData.getResult_y() * POSITION_FACTOR);
 
             leafPanel.getLabel().setLocation(x_diff, y_diff);
 
