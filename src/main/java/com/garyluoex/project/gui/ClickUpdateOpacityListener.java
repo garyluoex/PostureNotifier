@@ -1,7 +1,6 @@
 package com.garyluoex.project.gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -12,12 +11,12 @@ import java.io.IOException;
 public class ClickUpdateOpacityListener extends MouseAdapter {
 
     private final CompositeLeafBufferedImage leafImage;
-    private final LeafPanel leafPanel;
+    private final IndicatorPanel indicatorPanel;
     private float opacity = 0.0f;
 
-    public ClickUpdateOpacityListener(CompositeLeafBufferedImage leafImage, LeafPanel leafPanel) {
+    public ClickUpdateOpacityListener(CompositeLeafBufferedImage leafImage, IndicatorPanel indicatorPanel) {
         this.leafImage = leafImage;
-        this.leafPanel = leafPanel;
+        this.indicatorPanel = indicatorPanel;
     }
 
     @Override
@@ -28,7 +27,7 @@ public class ClickUpdateOpacityListener extends MouseAdapter {
         }
 
         try {
-            leafPanel.getLabel().setIcon(new ImageIcon(leafImage.getNewOpacityImage(opacity)));
+            indicatorPanel.getLabel().setIcon(new ImageIcon(leafImage.getNewOpacityImage(opacity)));
         } catch (IOException e) {
             e.printStackTrace();
         }

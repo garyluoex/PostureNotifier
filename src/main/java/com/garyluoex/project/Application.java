@@ -17,42 +17,50 @@ public class Application {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        // Start collecting sensor data from arduino usb connection
+        // Start Data Thread
         DataProcessingThread dataProcessingThread = new DataProcessingThread();
         dataProcessingThread.start();
 
-        // Initialize GUI to show
-        MainFrame myGUI = new MainFrame();
-        myGUI.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        // Composite Images
+        CompositeLeafBufferedImage compositeDotImage = new CompositeLeafBufferedImage(DOT_GREEN_URL, DOT_RED_URL);
 
-        CompositeLeafBufferedImage compositeLeafBufferedImage = new CompositeLeafBufferedImage(DOT_GREEN_URL, DOT_RED_URL);
+        // Indicator Panel Setup
+        IndicatorPanel indicatorPanel = new IndicatorPanel(compositeDotImage);
 
-        LeafPanel leafPanel = new LeafPanel(compositeLeafBufferedImage);
-
-        ClickUpdateOpacityListener clickUpdateOpacityListener = new ClickUpdateOpacityListener(compositeLeafBufferedImage, leafPanel);
         CalibrationListener calibrationListener = new CalibrationListener();
 
-        leafPanel.getLabel().addMouseListener(clickUpdateOpacityListener);
+        // Control Panel Setup
         ControlPanel controlPanel = new ControlPanel(calibrationListener);
 
-        myGUI.add(leafPanel, BorderLayout.CENTER);
-        myGUI.add(controlPanel, BorderLayout.WEST);
+        MainFrame myGUI = new MainFrame();
+
+        HistoryListener historyListener = new HistoryListener(controlPanel, indicatorPanel);
+
+        indicatorPanel.getLabel().addMouseListener(historyListener);
+        controlPanel.addMouseListener(historyListener);
+
+        // Main Frame Setup
+        indicatorPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        controlPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+        indicatorPanel.setVisible(true);
+
+        myGUI.add(indicatorPanel);
+        myGUI.add(controlPanel);
 
         myGUI.setVisible(true);
-
-        leafPanel.getLabel().setLocation(-8, 1);
 
         System.out.println("Entering main thread loop");
 
         // Loop to update GUI given the current state of data and result
         while (true) {
             double normalizedDistance = ResultData.getResult();
-            int x_diff = (int) (CIRCLE_CENTER_X + ResultData.getResult_x() * POSITION_FACTOR);
-            int y_diff = (int) (CIRCLE_CENTER_Y - ResultData.getResult_y() * POSITION_FACTOR);
+            int x_diff = (int) (DOT_CENTER_X - ResultData.getResult_x() * POSITION_FACTOR);
+            int y_diff = (int) (DOT_CENTER_Y - ResultData.getResult_y() * POSITION_FACTOR);
 
-            leafPanel.getLabel().setLocation(x_diff, y_diff);
+            indicatorPanel.getLabel().setLocation(x_diff, y_diff);
 
-            leafPanel.getLabel().setIcon(new ImageIcon(compositeLeafBufferedImage.getNewOpacityImage((float) normalizedDistance)));
+            indicatorPanel.getLabel().setIcon(new ImageIcon(compositeDotImage.getNewOpacityImage((float) normalizedDistance)));
         }
     }
 }

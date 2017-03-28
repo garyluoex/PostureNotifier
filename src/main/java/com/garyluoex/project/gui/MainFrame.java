@@ -1,5 +1,7 @@
 package com.garyluoex.project.gui;
 
+import static com.garyluoex.project.config.Configuration.*;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,6 +13,9 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         super("Posture Detector");
-        setLayout(new BorderLayout());
+        setAlwaysOnTop(true);
+//        setResizable(false);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT+20);
+        getContentPane().setSize(FRAME_WIDTH, FRAME_HEIGHT);
     }
 }

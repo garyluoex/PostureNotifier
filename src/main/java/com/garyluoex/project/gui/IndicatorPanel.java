@@ -12,41 +12,38 @@ import java.io.IOException;
 /**
  * Created by kaluo on 3/14/17.
  */
-public class LeafPanel extends JPanel {
+public class IndicatorPanel extends JPanel {
 
-    private final BufferedImage leafImage;
-    private final JLabel leafLabel;
+    private final BufferedImage dotImage;
+    private final JLabel dotLabel;
 
-    public LeafPanel(BufferedImage leafImage) {
+    public IndicatorPanel(BufferedImage dotImage) {
         super();
 
         // Label config
-        this.leafImage = leafImage;
-        this.leafLabel = new JLabel(new ImageIcon(this.leafImage));
-
-
+        this.dotImage = dotImage;
+        this.dotLabel = new JLabel(new ImageIcon(this.dotImage));
 
         // Panel config
+        setBackground(Color.WHITE);
         this.setSize(DOT_WIDTH, DOT_HEIGHT);
         this.setLayout(new BorderLayout());
-        this.add(leafLabel);
+        this.add(dotLabel);
     }
 
     public JLabel getLabel() {
-        return leafLabel;
+        return dotLabel;
     }
 
     public void updateLabelImage(BufferedImage newImage) {
-        leafLabel.setIcon(new ImageIcon(newImage));
+        dotLabel.setIcon(new ImageIcon(newImage));
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // paint the background image and scale it to fill the entire space
         try {
-            BufferedImage sourceImage = ImageIO.read(new File(BACKGROUND_CIRCLE_URL));
-            BufferedImage scaledImage = new BufferedImage(CIRCLE_WIDTH, CIRCLE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-            scaledImage.getGraphics().drawImage(sourceImage.getScaledInstance(CIRCLE_WIDTH, CIRCLE_HEIGHT, Image.SCALE_SMOOTH), 0, 0, null);
+            BufferedImage scaledImage = ImageUtils.scaleImage(ImageIO.read(new File(BACKGROUND_CIRCLE_URL)), FRAME_WIDTH, FRAME_HEIGHT);
             g.drawImage(scaledImage, 0, 0, null);
         } catch (IOException e) {
             e.printStackTrace();
