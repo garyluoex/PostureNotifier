@@ -48,27 +48,24 @@ public interface Configuration {
 
     // =============== Tuning Data Sensitivity configuration parameters ==============
 
-    // Seated threshold, sum of forces to exceeed to be considered seated
+    // Seated threshold, sum of forces to exceed to be considered seated
     public static final int SEATED_THRESHOLD = 50;
 
-    // Vibration threshold
+    // Vibration threshold, between 0 and 1
     public static final double VIBRATION_ACTIVATION_THRESHOLD = 0.95;
 
     // Dot's initial position
     public static final int DOT_CENTER_X = 0;
-    public static final int DOT_CENTER_Y = 1;
-
-    // Dot's maximum distance away from the center allowed
-    public static final int DOT_MAX_RADIUS = 100;
+    public static final int DOT_CENTER_Y = 0;
 
     // Effective sensor count
     public static final int SENSOR_COUNT = 12;
 
-    // Dot movement sensitivity
-    public static final double POSITION_FACTOR = 8;
+    // Dot movement sensitivity, higher means more sensitive
+    public static final double POSITION_FACTOR = 0.5;
 
     // Dot hue change sensitivity
-    public static final double NORMALIZATION_FACTOR = 10;
+    public static final double NORMALIZATION_FACTOR = 300;
 
     // Sensor position where the position indicates the sensor number
     public static final double[] SENSOR_POSITION_X = new double[] {20, 130, 20, 20, 130, 75, 170, 225, 280, 280, 170, 280};
@@ -78,8 +75,8 @@ public interface Configuration {
     public static final double[] SENSOR_FORCE_WEIGHT = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
     // Red dot warning after this amount of second passed
-    public static final int RED_DOT_TIME = 120;
+    public static final int RED_DOT_TIME = 10;
 
     // Radius of the dot from the center to strat counting time for red dot warning
-    public static final int RED_DOT_RADIUS_THRESHOLD = DOT_MAX_RADIUS - 10;
+    public static final int RED_DOT_RADIUS_THRESHOLD = 4;
 }
