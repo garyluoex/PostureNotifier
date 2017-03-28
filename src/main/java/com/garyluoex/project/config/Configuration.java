@@ -5,7 +5,7 @@ package com.garyluoex.project.config;
  */
 public interface Configuration {
 
-    public static final String USB_DEVICE_URL = "/dev/cu.usbmodem1411";
+    public static final String USB_DEVICE_URL = "/dev/cu.usbmodem1421";
 
     public static final String BACKGROUND_CIRCLE_URL = "src/main/resources/Circles.jpg";
     public static final String CALIBRATE_BUTTON_URL = "src/main/resources/Calibrate_button.png";
@@ -33,6 +33,6 @@ public interface Configuration {
     public static final int SENSOR_COUNT = 12;
 
     public static final double POSITION_FACTOR = 8;
-    
+
     public static final double NORMALIZATION_FACTOR = 10;
 }

@@ -4,6 +4,8 @@ import static com.garyluoex.project.config.Configuration.*;
 import com.garyluoex.project.data.CentroidData;
 import com.garyluoex.project.data.ResultData;
 
+import java.io.IOException;
+
 /**
  * Created by kaluo on 3/15/17.
  */
@@ -17,6 +19,15 @@ public class ResultProcessor {
         }
 
         ResultData.setResult(normalizeDistance(findDistance(centroidData)));
+
+        if (ResultData.getResult() > 0.9) {
+            try {
+                System.out.println("Trying to sent data to arduino: " + "echo 1 > " + USB_DEVICE_URL);
+                Runtime.getRuntime().exec(new String[]{"sh","-c", "echo 5 > " + USB_DEVICE_URL});
+            } catch (IOException e) {
+                throw new RuntimeException("Can not send vibration signal to arduino", e);
+            }
+        }
 
         double xDiff = centroidData.getX() - ResultProcessor.calibrationCentroid.getX();
         double yDiff = centroidData.getY() - ResultProcessor.calibrationCentroid.getY();
