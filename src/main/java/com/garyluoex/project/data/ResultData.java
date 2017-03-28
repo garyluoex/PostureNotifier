@@ -11,6 +11,7 @@ public class ResultData {
     public static final AtomicReference<String> postureQuality = new AtomicReference<String>("0.0");
     public static final AtomicReference<String> postureQuality_x = new AtomicReference<String>("0.0");
     public static final AtomicReference<String> postureQuality_y = new AtomicReference<String>("0.0");
+    public static final AtomicReference<Boolean> seated = new AtomicReference<Boolean>(new Boolean(false));
 
 
     public static double getResult() {
@@ -24,6 +25,9 @@ public class ResultData {
         return Double.parseDouble(postureQuality_y.get());
     }
 
+    public static boolean getSeated() {
+        return seated.get().booleanValue();
+    }
 
     public static void setResult(double postureQuality) {
         ResultData.postureQuality.set(Double.toString(postureQuality));
@@ -33,5 +37,9 @@ public class ResultData {
     }
     public static void setResult_y(double postureQuality_y) {
         ResultData.postureQuality_y.set(Double.toString(postureQuality_y));
+    }
+
+    public static void setSeated(boolean seated) {
+        ResultData.seated.set(new Boolean(seated));
     }
 }

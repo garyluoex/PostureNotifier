@@ -20,7 +20,7 @@ public class ResultProcessor {
 
         ResultData.setResult(normalizeDistance(findDistance(centroidData)));
 
-        if (ResultData.getResult() > 0.9) {
+        if (ResultData.getResult() > VIBRATION_ACTIVATION_THRESHOLD) {
             try {
                 System.out.println("Trying to sent data to arduino: " + "echo 1 > " + USB_DEVICE_URL);
                 Runtime.getRuntime().exec(new String[]{"sh","-c", "echo 5 > " + USB_DEVICE_URL});

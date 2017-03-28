@@ -2,6 +2,7 @@ package com.garyluoex.project.processor;
 
 import static com.garyluoex.project.config.Configuration.*;
 import com.garyluoex.project.data.CentroidData;
+import com.garyluoex.project.data.ResultData;
 import com.garyluoex.project.data.SensorData;
 
 /**
@@ -9,18 +10,25 @@ import com.garyluoex.project.data.SensorData;
  */
 public class CentroidProcessor {
 
-    public static double[] xPosition = new double[] {20, 130, 20, 20, 130, 75, 170, 225, 280, 280, 170, 280};
-    public static double[] yPosition = new double[] {280, 250, 190, 110, 150, 25, 150, 25, 110, 190, 250, 280};
+    private static final double[] xPosition = SENSOR_POSITION_X;
+    private static final double[] yPosition = SENSOR_POSITION_Y;
+    private static final double[] sensorWeight = SENSOR_FORCE_WEIGHT;
 
     public static CentroidData processData(SensorData sensorData) {
         double xTotal = 0;
         double rawForce = 1;
         double yTotal = 0;
         for (int i = 0; i < SENSOR_COUNT; i++) {
-            xTotal += sensorData.getForceData(i)*xPosition[i];
-            rawForce += sensorData.getForceData(i);
-            yTotal += sensorData.getForceData(i)*yPosition[i];
+            xTotal += sensorData.getForceData(i)*xPosition[i]*sensorWeight[i];
+            yTotal += sensorData.getForceData(i)*yPosition[i]*sensorWeight[i];
+            rawForce += sensorData.getForceData(i)*sensorWeight[i];
         }
+        if (rawForce < SEATED_THRESHOLD) {
+            ResultData.setSeated(false);
+        } else {
+            ResultData.setSeated(true);
+        }
+
         return new CentroidData(xTotal/rawForce, yTotal/rawForce);
     }
 
