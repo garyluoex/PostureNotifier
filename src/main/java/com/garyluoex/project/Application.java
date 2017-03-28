@@ -5,7 +5,6 @@ import com.garyluoex.project.processor.DataProcessingThread;
 import com.garyluoex.project.gui.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 import static com.garyluoex.project.config.Configuration.*;
@@ -34,14 +33,10 @@ public class Application {
 
         MainFrame myGUI = new MainFrame();
 
-        HistoryListener historyListener = new HistoryListener(controlPanel, indicatorPanel);
+        SwitchPanelListener switchPanelListener = new SwitchPanelListener(controlPanel, indicatorPanel);
 
-        indicatorPanel.getLabel().addMouseListener(historyListener);
-        controlPanel.addMouseListener(historyListener);
-
-        // Main Frame Setup
-        indicatorPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        controlPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        indicatorPanel.addMouseListener(switchPanelListener);
+        controlPanel.addMouseListener(switchPanelListener);
 
         indicatorPanel.setVisible(true);
 

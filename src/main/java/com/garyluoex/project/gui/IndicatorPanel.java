@@ -29,6 +29,7 @@ public class IndicatorPanel extends JPanel {
         this.setSize(DOT_WIDTH, DOT_HEIGHT);
         this.setLayout(new BorderLayout());
         this.add(dotLabel);
+        setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     }
 
     public JLabel getLabel() {
