@@ -20,24 +20,15 @@ public class ResultProcessor {
 
         ResultData.setResult(normalizeDistance(findDistance(centroidData)));
 
-        if (ResultData.getResult() > VIBRATION_ACTIVATION_THRESHOLD) {
-            try {
-                System.out.println("Trying to sent data to arduino: " + "echo 1 > " + USB_DEVICE_URL);
-                Runtime.getRuntime().exec(new String[]{"sh","-c", "echo 5 > " + USB_DEVICE_URL});
-            } catch (IOException e) {
-                throw new RuntimeException("Can not send vibration signal to arduino", e);
-            }
-        }
-
         double xDiff = centroidData.getX() - ResultProcessor.calibrationCentroid.getX();
         double yDiff = centroidData.getY() - ResultProcessor.calibrationCentroid.getY();
 
         ResultData.setResult_x(xDiff);
         ResultData.setResult_y(yDiff);
 
-        System.out.println("Normalized Distance: " + ResultData.getResult());
-        System.out.println("X Distance: " + ResultData.getResult_x());
-        System.out.println("Y Distance: " + ResultData.getResult_y());
+//        System.out.println("Normalized Distance: " + ResultData.getResult());
+//        System.out.println("X Distance: " + ResultData.getResult_x());
+//        System.out.println("Y Distance: " + ResultData.getResult_y());
 
     }
 
@@ -51,7 +42,7 @@ public class ResultProcessor {
     private static double normalizeDistance(double distance) {
         double normalizedDistance = distance/NORMALIZATION_FACTOR;
 
-        System.out.println("Distance: " + distance);
+        //System.out.println("Distance: " + distance);
         if (normalizedDistance > 1.0) {
             return 1.0;
         }

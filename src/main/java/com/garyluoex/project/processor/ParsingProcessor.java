@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class ParsingProcessor {
 
     public static SensorData processData(String data) {
-        System.out.println(data);
+        //System.out.println(data);
         String[] dataArray = data.split(",");
         if (dataArray.length >= 16) {
             dataArray[8] = dataArray[9];
