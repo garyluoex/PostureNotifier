@@ -50,6 +50,9 @@ public class Application {
         System.out.println("Entering main thread loop");
 
         long start = System.nanoTime();
+        long duration = System.nanoTime();
+        long flash = System.nanoTime();
+        boolean visible = true;
 
         // Loop to update GUI given the current state of data and result
         while (true) {
@@ -70,14 +73,26 @@ public class Application {
 
             if (ResultData.getSeated()) {
                 double elapsedTime = (System.nanoTime() - start) / 1000000000.0;
+
                 if (elapsedTime > RED_DOT_TIME) {
                     indicatorPanel.getLabel().setIcon(new ImageIcon(ImageUtils.scaleImage(ImageIO.read(new File(DOT_RED_URL)), DOT_WIDTH, DOT_HEIGHT)));
-                    indicatorPanel.getLabel().setVisible(true);
-                    try {
-                        //System.out.println("Trying to sent data to arduino: " + "echo 1 > " + USB_DEVICE_URL);
-                        Runtime.getRuntime().exec(new String[]{"sh", "-c", "echo 5 > " + USB_DEVICE_URL});
-                    } catch (IOException e) {
-                        throw new RuntimeException("Can not send vibration signal to arduino", e);
+                    double lastTime = (System.nanoTime() - duration) / 1000000000.0;
+                    double flashTime = (System.nanoTime() - flash) / 1000000000.0;
+
+                    if (flashTime > FLASH_TIME) {
+                        indicatorPanel.getLabel().setVisible(visible);
+                        flash = System.nanoTime();
+                        visible = !visible;
+                    }
+
+                    if (lastTime > DURATION_TIME) {
+                        try {
+                            //System.out.println("Trying to sent data to arduino: " + "echo 1 > " + USB_DEVICE_URL);
+                            Runtime.getRuntime().exec(new String[]{"sh", "-c", "echo 5 > " + USB_DEVICE_URL});
+                        } catch (IOException e) {
+                            throw new RuntimeException("Can not send vibration signal to arduino", e);
+                        }
+                        duration = System.nanoTime();
                     }
                 } else {
                     indicatorPanel.getLabel().setIcon(new ImageIcon(compositeDotImage.getNewOpacityImage((float) normalizedDistance)));
